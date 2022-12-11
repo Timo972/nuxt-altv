@@ -1,10 +1,20 @@
 import type { Ref } from 'vue'
-import { useState } from '#imports'
+import { useRouter, useState } from '#imports'
 
 type Callback = (...args: any[]) => void
 
+const router = useRouter()
+
 // alt:V events shim for default browsers
 class EventBus {
+  constructor () {
+    if (isInGame()) {
+      this.on('routeTo', (to: string) => {
+        router.push(to)
+      })
+    }
+  }
+
   public on (event: string, listener: Callback): void {
     if (isInGame()) {
       return window.alt.emit(event, listener)

@@ -1,4 +1,5 @@
-# Nuxt Module
+# Nuxt alt:V Integration
+> Usable for EarlyAuth & InGame UI's
 
 ## Development
 
