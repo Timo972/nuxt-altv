@@ -13,7 +13,9 @@ Find and replace all on all files (CMD+SHIFT+F):
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-My new Nuxt module for doing amazing things.
+Nuxt module for interacting with the alt:V Client EarlyAuth & WebView APIs.     
+Note: this module is just a wrapper around the alt:V API, it does not provide any functionality on its own.     
+If you have a feature request, please open an issue.
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
