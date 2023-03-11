@@ -1,21 +1,18 @@
 import type { Ref } from 'vue'
-import { useRouter, useState } from '#imports'
+import { useState } from '#imports'
 
 type Callback = (...args: any[]) => void
-
-const router = useRouter()
-
 // alt:V events shim for default browsers
 class EventBus {
-  constructor () {
-    if (isInGame()) {
-      this.on('routeTo', (to: string) => {
-        router.push(to)
-      })
-    }
+  constructor() {
+    // if (isInGame()) {
+    //   this.on('routeTo', (to: string) => {
+    //     router.push(to)
+    //   })
+    // }
   }
 
-  public on (event: string, listener: Callback): void {
+  public on(event: string, listener: Callback): void {
     if (isInGame()) {
       return window.alt.emit(event, listener)
     }
@@ -23,7 +20,7 @@ class EventBus {
     // if (debug) { logger.debug('on', event, listener) }
   }
 
-  public once (event: string, listener: Callback): void {
+  public once(event: string, listener: Callback): void {
     if (isInGame()) {
       return window.alt.once(event, listener)
     }
@@ -31,13 +28,13 @@ class EventBus {
     // if (debug) { logger.debug('once', event, listener) }
   }
 
-  public off (event: string, listener: Callback): void {
+  public off(event: string, listener: Callback): void {
     if (isInGame()) {
       return window.alt.off(event, listener)
     }
   }
 
-  public emit (event: string, ...args: any[]): void {
+  public emit(event: string, ...args: any[]): void {
     if (isInGame()) {
       return window.alt.emit(event, ...args)
     }
@@ -47,7 +44,7 @@ class EventBus {
     // }
   }
 
-  public getEventListeners (event: string): Callback[] {
+  public getEventListeners(event: string): Callback[] {
     if (isInGame()) {
       return window.alt.getEventListeners(event)
     }
@@ -63,7 +60,7 @@ export const isInGame = () => !process.server && ('alt' in window)
 export const close = () => events.emit('closeMe')
 export const pushToken = (token: string): void => events.emit('pushToken', token)
 export const getPlayerName = async (): Promise<Ref<string>> => {
-  const state = useState('altPlayerName', () => '')
+  const state = useState('altPlayerName', () => 'alt:V Username')
 
   if (!state.value && !process.server) {
     const res = new Promise<string>(resolve => events.on('playerName', resolve))
@@ -83,11 +80,11 @@ class LocalStorage {
   private _reqEvent = 'requestLocalStorage'
   private _queue: Record<string, Listener<any>[]> = {}
 
-  constructor () {
+  constructor() {
     events.on(this._getEvent, this.handleLocalStorage.bind(this))
   }
 
-  private handleLocalStorage (k: string, v: any): void {
+  private handleLocalStorage(k: string, v: any): void {
     if (!(k in this._queue)) {
       return
     }
@@ -96,7 +93,7 @@ class LocalStorage {
     delete this._queue[k]
   }
 
-  private addLocalStorageListener<T> (k: string, ln: Listener<T>): void {
+  private addLocalStorageListener<T>(k: string, ln: Listener<T>): void {
     if (!this._queue[k]) {
       this._queue[k] = [ln]
 
@@ -106,14 +103,14 @@ class LocalStorage {
     this._queue[k].push(ln)
   }
 
-  public get<T> (k: string): Promise<T> {
+  public get<T>(k: string): Promise<T> {
     return new Promise<T>((resolve) => {
       this.addLocalStorageListener<T>(k, resolve)
       events.emit(this._reqEvent, k)
     })
   }
 
-  public set<T> (k: string, v: T): void {
+  public set<T>(k: string, v: T): void {
     events.emit(this._setEvent, k, v)
   }
 }

@@ -1,6 +1,5 @@
 import { fileURLToPath } from 'url'
 import { defineNuxtModule, addPlugin, createResolver, addImportsDir, useLogger, addComponentsDir } from '@nuxt/kit'
-import { ComponentsDir } from '@nuxt/schema'
 
 export interface ModuleOptions {
   addPlugin: boolean;
@@ -23,7 +22,7 @@ export default defineNuxtModule<ModuleOptions>({
     addComponents: true,
     debug: false
   },
-  setup (options, nuxt) {
+  setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
     const logger = useLogger('nuxt-altv')
 
