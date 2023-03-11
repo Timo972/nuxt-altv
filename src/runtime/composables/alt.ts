@@ -137,7 +137,7 @@ export const useAlt = () => ({
    */
   close,
   /**
-   * push authToken to alt:V   
+   * push authToken to alt:V
    * more about earlyAuth at https://docs.altv.mp/articles/earlyauth.html
    * @param token {string} authToken
    * @returns {void}
