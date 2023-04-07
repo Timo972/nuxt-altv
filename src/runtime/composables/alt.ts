@@ -14,7 +14,7 @@ class EventBus {
 
   public on(event: string, listener: Callback): void {
     if (isInGame()) {
-      return window.alt.emit(event, listener)
+      return window.alt.on(event, listener)
     }
 
     // if (debug) { logger.debug('on', event, listener) }
